@@ -2,6 +2,8 @@
 
 Plataforma de aulas interativas de tenis. Inclui portal, Capitulo 1, demonstracao de voz da Lia, documentacao e referencias visuais.
 
+**Site publicado:** https://gmelloto.github.io/tennis-lab/ (atualiza automaticamente a cada push na `main`, via `.github/workflows/pages.yml`).
+
 ## Abrir no GitHub Codespaces (inclusive pelo iPhone)
 1. Crie um repositorio GitHub, por exemplo `tennis-lab`.
 2. Envie o conteudo DESTA pasta para a raiz do repositorio (nao a pasta que a contem).

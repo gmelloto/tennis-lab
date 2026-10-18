@@ -1,0 +1,53 @@
+name: Publicar no GitHub Pages
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm install
+      - run: npm test
+      - name: Montar site estático
+        run: |
+          mkdir _site
+          cp -r index.html capitulos prototipos referencias-visuais documentacao _site/
+          touch _site/.nojekyll
+          for f in _site/documentacao/*.md; do
+            name=$(basename "$f" .md)
+            body=$(npx -y marked@15 -i "$f")
+            cat > "_site/documentacao/$name.html" <<EOF
+          <!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Tennis Lab — $name</title>
+          <style>body{margin:0;background:#081d20;color:#F5F3EB;font:16px/1.65 system-ui,-apple-system,Segoe UI,sans-serif}main{max-width:820px;margin:auto;padding:32px 20px 80px}a{color:#D9EF49}h1,h2,h3{letter-spacing:-.02em}table{border-collapse:collapse;width:100%;display:block;overflow-x:auto}td,th{border:1px solid #31595b;padding:6px 10px}code{background:#113236;padding:2px 5px;border-radius:5px}img{max-width:100%}</style></head>
+          <body><main><p><a href="../index.html">← Voltar ao portal</a></p>
+          $body
+          </main></body></html>
+          EOF
+          done
+          sed -i 's#documentacao/\([0-9a-z-]*\)\.md#documentacao/\1.html#g' _site/index.html
+      - uses: actions/configure-pages@v5
+        with:
+          enablement: true
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+      - id: deployment
+        uses: actions/deploy-pages@v4
