@@ -1,0 +1,29 @@
+{
+  "_comentario": "Roteiros de fala. Quando houver áudio gerado (ex.: VoiceStudio), coloque o arquivo nesta pasta e preencha 'audio' com o nome dele. 'legendas' é opcional: [{\"inicio\": 0, \"fim\": 2.4, \"texto\": \"...\"}] em segundos.",
+  "falas": [
+    {
+      "id": "lia-boas-vindas",
+      "personagem": "Lia",
+      "titulo": "Boas-vindas",
+      "texto": "Oi! Eu sou a Lia. Junto com o Alex, vou acompanhar você nesta jornada. Aqui, você vai ver, entender, treinar e evoluir no seu ritmo.",
+      "audio": null,
+      "legendas": null
+    },
+    {
+      "id": "lia-superficies",
+      "personagem": "Lia",
+      "titulo": "Superfícies",
+      "texto": "No saibro, a bola quica mais alto e chega mais devagar. Na grama, ela fica baixa e rápida. A quadra dura fica no meio do caminho.",
+      "audio": null,
+      "legendas": null
+    },
+    {
+      "id": "alex-rally",
+      "personagem": "Alex",
+      "titulo": "O que é um rally",
+      "texto": "Rally é a troca de bolas entre os jogadores. O ponto continua até alguém errar, mandar a bola para fora ou não conseguir devolver.",
+      "audio": null,
+      "legendas": null
+    }
+  ]
+}

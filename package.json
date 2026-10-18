@@ -2,6 +2,7 @@
   "name": "tennis-lab",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "description": "Tennis Lab - plataforma interativa de ensino de tenis",
   "scripts": {
     "dev": "vite --host 0.0.0.0 --port 3000",

@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Tennis Lab — Avatar 3D com voz</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%23102F32%22/%3E%3Ccircle cx=%2216%22 cy=%2216%22 r=%229%22 fill=%22%23D9EF49%22/%3E%3C/svg%3E">
+<script type="importmap">
+{ "imports": {
+  "three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js",
+  "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/"
+} }
+</script>
+<style>
+:root{--dark:#102F32;--deep:#0b2427;--lime:#D9EF49;--clay:#D4784D;--ivory:#F5F3EB;--blue:#60B4BF;--muted:#AAC0BA;--line:#31595b;--card:#113236}
+*{box-sizing:border-box}
+body{margin:0;background:var(--deep);color:var(--ivory);font:16px/1.55 system-ui,-apple-system,"Segoe UI",sans-serif;-webkit-text-size-adjust:100%}
+main{max-width:1100px;margin:auto;padding:max(16px,env(safe-area-inset-top)) 16px 64px}
+a{color:var(--lime)}
+.back{display:inline-flex;align-items:center;min-height:44px;font-weight:700;text-decoration:none}
+.tag{color:var(--lime);font-size:.78rem;letter-spacing:.16em;font-weight:800;text-transform:uppercase;margin-top:6px}
+h1{font-size:clamp(1.9rem,6vw,3rem);line-height:1.08;letter-spacing:-.03em;margin:8px 0 10px}
+.lead{color:#D4E3DD;max-width:680px;margin:0 0 20px}
+.layout{display:grid;gap:18px}
+@media(min-width:900px){.layout{grid-template-columns:1.15fr 1fr;align-items:start}}
+.palco{position:relative;border-radius:22px;overflow:hidden;background:radial-gradient(circle at 50% 35%,#2b5b5d,#0f2c2f 70%);border:1px solid var(--line);aspect-ratio:4/5;max-height:68vh;width:100%}
+@media(min-width:900px){.palco{max-height:none}}
+.palco canvas{display:block;width:100%;height:100%;touch-action:none}
+.selo{position:absolute;left:12px;top:12px;background:#0b2427cc;border:1px solid var(--line);color:var(--muted);font-size:.75rem;padding:5px 10px;border-radius:100px;backdrop-filter:blur(6px)}
+.aviso{position:absolute;inset:0;display:grid;place-items:center;text-align:center;padding:24px;color:var(--muted)}
+.aviso[hidden]{display:none}
+.legenda{position:absolute;left:12px;right:12px;bottom:12px;background:#081d20e6;border-radius:14px;padding:12px 14px;font-size:1.05rem;line-height:1.4;min-height:1em;text-align:center}
+.legenda:empty{display:none}
+.painel{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:16px}
+.abas{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;background:#0b2427;padding:5px;border-radius:14px;margin-bottom:16px}
+.abas button{min-height:44px;border:0;border-radius:10px;background:transparent;color:var(--muted);font:inherit;font-size:.86rem;font-weight:700;padding:6px 4px;cursor:pointer}
+.abas button[aria-selected=true]{background:var(--lime);color:var(--dark)}
+label{display:block;font-weight:700;margin:12px 0 6px}
+select,textarea,input[type=file]{width:100%;font:inherit;color:var(--ivory);background:#0b2427;border:1px solid var(--line);border-radius:12px;padding:11px 12px;min-height:44px}
+textarea{min-height:84px;resize:vertical}
+input[type=range]{width:100%;accent-color:var(--lime);min-height:44px}
+.linha{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+.btn{min-height:48px;border:0;border-radius:12px;background:var(--lime);color:var(--dark);font:inherit;font-weight:800;padding:10px 18px;cursor:pointer}
+.btn.alt{background:#214447;color:var(--ivory);border:1px solid #426467}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.nota{color:var(--muted);font-size:.88rem;margin:10px 0 0}
+.check{display:flex;align-items:center;gap:10px;min-height:44px;font-weight:600;margin-top:8px}
+.check input{width:22px;height:22px;accent-color:var(--lime)}
+.diag{list-style:none;padding:0;margin:12px 0 0;display:grid;gap:6px}
+.diag li{background:#0b2427;border-radius:10px;padding:9px 12px;font-size:.92rem}
+.status{font-size:.9rem;color:var(--blue);min-height:1.4em;margin-top:10px}
+footer{color:var(--muted);font-size:.82rem;margin-top:28px}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+<main>
+  <a href="../../index.html" class="back">← Portal</a>
+  <div class="tag">Tennis Lab · Protótipo</div>
+  <h1>Avatar 3D com voz</h1>
+  <p class="lead">Base técnica para a Lia e o Alex falarem: modelo 3D, voz, legendas e boca sincronizada. O rosto abaixo é um <strong>modelo de teste</strong> — será trocado pelos avatares finais quando ficarem prontos.</p>
+
+  <div class="layout">
+    <div class="palco" id="palco" aria-label="Avatar 3D. Arraste para girar, use dois dedos para aproximar.">
+      <div class="aviso" id="aviso">Carregando modelo 3D…</div>
+      <div class="selo" id="selo">Modelo de teste</div>
+      <div class="legenda" id="legenda" aria-live="polite"></div>
+    </div>
+
+    <section class="painel">
+      <div class="abas" role="tablist">
+        <button role="tab" aria-selected="true" aria-controls="aba-roteiro" id="t-roteiro">Roteiro</button>
+        <button role="tab" aria-selected="false" aria-controls="aba-audio" id="t-audio">Seu áudio</button>
+        <button role="tab" aria-selected="false" aria-controls="aba-mic" id="t-mic">Microfone</button>
+        <button role="tab" aria-selected="false" aria-controls="aba-avatar" id="t-avatar">Seu avatar</button>
+      </div>
+
+      <div role="tabpanel" id="aba-roteiro" aria-labelledby="t-roteiro">
+        <label for="fala">Fala</label>
+        <select id="fala"></select>
+        <label for="vel">Velocidade: <span id="velTxt">1,0×</span></label>
+        <input type="range" id="vel" min="0.7" max="1.3" step="0.1" value="1">
+        <div class="linha"><button class="btn" id="ouvir">▶ Ouvir</button><button class="btn alt" id="parar1">■ Parar</button></div>
+        <p class="nota" id="notaRoteiro">Sem áudio gravado ainda: usa a voz do próprio aparelho e a boca acompanha o texto (aproximação). Quando houver áudio do VoiceStudio para a fala, ele é usado automaticamente.</p>
+      </div>
+
+      <div role="tabpanel" id="aba-audio" aria-labelledby="t-audio" hidden>
+        <label for="arquivo">Arquivo de áudio (MP3, WAV, M4A)</label>
+        <input type="file" id="arquivo" accept="audio/*">
+        <label for="textoAudio">Texto da fala (opcional, para legendas)</label>
+        <textarea id="textoAudio" placeholder="Cole aqui o texto que foi narrado"></textarea>
+        <div class="linha"><button class="btn" id="tocar" disabled>▶ Tocar</button><button class="btn alt" id="parar2">■ Parar</button></div>
+        <p class="nota">Ideal para testar áudios exportados do VoiceStudio: a boca segue o som real.</p>
+      </div>
+
+      <div role="tabpanel" id="aba-mic" aria-labelledby="t-mic" hidden>
+        <div class="linha"><button class="btn" id="mic">🎙 Ativar microfone</button></div>
+        <p class="nota">Fale perto do aparelho e veja a boca acompanhar sua voz ao vivo. Nada é gravado nem enviado.</p>
+      </div>
+
+      <div role="tabpanel" id="aba-avatar" aria-labelledby="t-avatar" hidden>
+        <label for="glb">Modelo 3D (.glb)</label>
+        <input type="file" id="glb" accept=".glb,model/gltf-binary">
+        <div class="linha"><button class="btn alt" id="padrao">Voltar ao modelo de teste</button></div>
+        <p class="nota">Teste aqui o avatar gerado no Meshy, Tripo ou outra ferramenta. O arquivo fica só no seu aparelho.</p>
+        <ul class="diag" id="diag"></ul>
+      </div>
+
+      <label class="check"><input type="checkbox" id="legendas" checked> Mostrar legendas</label>
+      <div class="status" id="status" role="status"></div>
+    </section>
+  </div>
+
+  <footer>Modelo de teste: “Face Cap” (Bannaflak), distribuído nos exemplos do three.js — usado apenas para validar a sincronização labial; não é a Lia nem o Alex.</footer>
+</main>
+<script type="module" src="./app.js"></script>
+</body>
+</html>

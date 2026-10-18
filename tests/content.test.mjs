@@ -5,7 +5,7 @@ const paths=['index.html','capitulos/01-descobrindo-o-tenis/index.html','prototi
 test('arquivos principais presentes',()=>{ for(const path of paths) assert.ok(existsSync(path), `Arquivo ausente: ${path}`); });
 test('paginas HTML contem estrutura basica',()=>{ for(const path of paths.filter(p=>p.endsWith('.html'))) assert.match(readFileSync(path,'utf8'),/<html/i); });
 
-const pages=['index.html','capitulos/01-descobrindo-o-tenis/index.html','prototipos/lia-voz/index.html'];
+const pages=['index.html','capitulos/01-descobrindo-o-tenis/index.html','prototipos/lia-voz/index.html','prototipos/avatar-3d/index.html'];
 test('links internos apontam para arquivos existentes',()=>{
   for(const page of pages){
     const html=readFileSync(page,'utf8'); const base=page.split('/').slice(0,-1).join('/');
