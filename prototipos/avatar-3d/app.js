@@ -130,8 +130,15 @@ let falaAtual = null;
 
 function status(msg) { $('status').textContent = msg; }
 
+// iOS 17+: faz o áudio da página tocar mesmo com a chave de silencioso ligada.
+function prepararSessaoDeAudio(tipo = 'playback') {
+  try { if (navigator.audioSession) navigator.audioSession.type = tipo; } catch { /* sem suporte */ }
+}
+let utteranceAtual = null; // mantém a referência: o Safari descarta falas "soltas"
+
 function parar() {
-  window.speechSynthesis?.cancel();
+  const synth = window.speechSynthesis;
+  if (synth && (synth.speaking || synth.pending)) synth.cancel();
   elementoAudio.pause();
   if (falaAtual?.tipo === 'mic') {
     falaAtual.stream.getTracks().forEach((t) => t.stop());
@@ -144,6 +151,7 @@ function parar() {
 
 async function tocarAudio(src, texto, legendas) {
   parar();
+  prepararSessaoDeAudio();
   garantirAudio();
   if (!fonteElemento) {
     fonteElemento = ctxAudio.createMediaElementSource(elementoAudio);
@@ -171,8 +179,11 @@ function vozPtBr() {
 }
 
 function falarTexto(texto, velocidade) {
+  const synth = window.speechSynthesis;
+  if (!synth) { status('Este navegador não tem voz sintetizada.'); return; }
+  const ocupado = synth.speaking || synth.pending;
   parar();
-  if (!('speechSynthesis' in window)) { status('Este navegador não tem voz sintetizada.'); return; }
+  prepararSessaoDeAudio();
   const u = new SpeechSynthesisUtterance(texto);
   u.lang = 'pt-BR';
   u.rate = velocidade;
@@ -181,16 +192,26 @@ function falarTexto(texto, velocidade) {
   const fala = { tipo: 'texto', texto, base: 0, inicio: performance.now(), cps: 14 * velocidade, iniciou: false };
   u.onstart = () => { fala.inicio = performance.now(); fala.iniciou = true; };
   u.onboundary = (e) => { fala.base = e.charIndex; fala.inicio = performance.now(); fala.iniciou = true; };
-  u.onend = () => { if (falaAtual === fala) parar(); status(''); };
+  u.onend = () => { if (falaAtual === fala) { parar(); status(''); } };
   u.onerror = () => { if (falaAtual === fala) parar(); };
   falaAtual = fala;
-  speechSynthesis.speak(u);
-  status(voz ? `Voz do aparelho: ${voz.name}` : 'Voz do aparelho');
+  utteranceAtual = u;
+  const iniciar = () => {
+    if (falaAtual !== fala) return;
+    synth.resume();
+    synth.speak(u);
+  };
+  // No iPhone, falar logo após cancelar pode descartar a fala: espera um instante.
+  if (ocupado) setTimeout(iniciar, 250); else iniciar();
+  const vozes = synth.getVoices().filter((v) => v.lang?.startsWith('pt')).length;
+  status(voz ? `Voz do aparelho: ${voz.name}` : `Voz do aparelho (${vozes} vozes em português encontradas)`);
+  setTimeout(() => { if (falaAtual === fala && !fala.iniciou) status('A voz não começou. Confira: modo silencioso desligado, volume alto e, em Ajustes › Acessibilidade › Conteúdo Falado › Vozes, uma voz em Português (Brasil).'); }, 3000);
 }
 
 async function ligarMicrofone() {
   if (falaAtual?.tipo === 'mic') { parar(); status(''); return; }
   parar();
+  prepararSessaoDeAudio('play-and-record');
   garantirAudio();
   try {
     const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
