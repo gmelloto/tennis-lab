@@ -1,0 +1,63 @@
+{
+  "version": 1,
+  "language": "pt-BR",
+  "status": "scripts_only_audio_not_generated",
+  "voice_direction": "Voz feminina adulta, português brasileiro, natural, acolhedora e didática; ritmo moderado. Usar a mesma voz em todos os arquivos.",
+  "notes": "Roteiros adaptados para áudio a partir do Capítulo 1; não são leitura literal das seleções interativas. Quiz sem respostas. Gerar e revisar pronúncia antes de publicar. Nenhuma instância do VoiceStudio configurada.",
+  "sections": [
+    {
+      "id": "introducao",
+      "title": "Bem-vindo ao Tennis Lab",
+      "text": "O tênis é muito mais que bater numa bola. É estratégia, movimento, história e aquela sensação incrível de acertar uma jogada. Neste capítulo, você vai conhecer o esporte, descobrir como as superfícies mudam o jogo e preparar seus primeiros passos na quadra.",
+      "planned_filename": "introducao.wav"
+    },
+    {
+      "id": "historia",
+      "title": "Uma viagem no tempo",
+      "text": "Antes das raquetes de fibra de carbono, existiram jogos com bolas golpeadas com a mão. Na França medieval, o jogo de palma foi um dos ancestrais do tênis. Na década de mil oitocentos e setenta, o tênis sobre grama se popularizou na Grã-Bretanha. A primeira edição de Wimbledon aconteceu em mil oitocentos e setenta e sete. Em mil novecentos e sessenta e oito, começou a Era Aberta: grandes torneios passaram a receber profissionais e amadores. Hoje, novos materiais e tecnologias continuam transformando o esporte.",
+      "planned_filename": "historia.wav"
+    },
+    {
+      "id": "jogo",
+      "title": "O que acontece em uma partida?",
+      "text": "No tênis, dois jogadores, ou duas duplas, tentam devolver a bola sobre a rede para a área válida do outro lado. Uma sequência de devoluções chama-se rally. Os pontos formam games, os games formam sets e os sets determinam a partida. Em simples, há um jogador de cada lado, e os corredores laterais ficam fora da área válida. Em duplas, são dois jogadores por lado, e os corredores contam durante as trocas. No saque, a bola precisa atingir o quadrado de serviço correspondente, inclusive em duplas.",
+      "planned_filename": "jogo.wav"
+    },
+    {
+      "id": "quadras",
+      "title": "Três superfícies, três personalidades",
+      "text": "O piso muda o quique, a velocidade da bola e a maneira de se movimentar. No saibro, a bola geralmente perde mais velocidade após o quique e pode subir mais, favorecendo trocas longas. Roland-Garros é o torneio emblemático dessa superfície. Na grama, o quique costuma ser mais baixo e o jogo mais rápido, exigindo preparação antecipada. É a superfície de Wimbledon. Na quadra dura, o quique costuma ser mais previsível, mas a velocidade varia conforme o revestimento e a construção. Australian Open e US Open são disputados em quadras duras. Essas são tendências: bolas, umidade e manutenção também influenciam o comportamento do jogo.",
+      "planned_filename": "quadras.wav"
+    },
+    {
+      "id": "estilos",
+      "title": "Qual jogador mora em você?",
+      "text": "Alguns jogadores gostam de atacar, acelerar a bola e buscar o ponto vencedor. Outros preferem construir o ponto com regularidade, movimentação e paciência. Há também quem goste de variar ritmos, direções e posições. Nenhum estilo é melhor em todas as situações. Escolha na tela o que parece mais divertido para você hoje. Suas preferências podem mudar à medida que você aprende.",
+      "planned_filename": "estilos.wav"
+    },
+    {
+      "id": "linguagem",
+      "title": "Fale a língua da quadra",
+      "text": "Vamos conhecer algumas palavras usadas no tênis. Rally é uma sequência de devoluções durante um ponto. Ace é um saque válido que o recebedor não toca com a raquete. Winner é um golpe que vence o ponto diretamente, sem devolução válida. Game é uma unidade de pontuação formada por pontos. Set é um conjunto de games. Break point é um ponto em que o recebedor pode vencer o game de saque adversário. Erro não forçado é um erro em uma situação na qual seria razoável conseguir devolver a bola. Match point é um ponto que pode encerrar a partida. Explore as cartas na tela para revisar esses termos.",
+      "planned_filename": "linguagem.wav"
+    },
+    {
+      "id": "primeiros",
+      "title": "Sua estreia, sem complicação",
+      "text": "Você não precisa de uma raquete profissional nem de um saque poderoso para começar. Procure uma quadra ou escola de tênis e pesquise um professor ou uma aula experimental. Verifique se pode usar uma raquete emprestada. Separe calçado adequado, roupa confortável e água, e escolha um horário para sua primeira experiência. Comece com bolas mais lentas e exercícios cooperativos. O controle vem antes da potência.",
+      "planned_filename": "primeiros.wav"
+    },
+    {
+      "id": "objetivos",
+      "title": "Qual é a sua missão?",
+      "text": "Seu objetivo pode ser trocar bolas com consistência, jogar partidas com amigos, melhorar o condicionamento ou competir no futuro. Escolha na tela seu objetivo e a frequência desejada. Nos primeiros trinta dias, busque familiaridade com a bola e os movimentos. Aos sessenta dias, trabalhe o controle e as trocas cooperativas. Aos noventa dias, avalie sua evolução e continue consolidando os fundamentos. Esses marcos são orientativos, não promessas de desempenho.",
+      "planned_filename": "objetivos.wav"
+    },
+    {
+      "id": "quiz",
+      "title": "Desafio final",
+      "text": "Agora é sua vez. Responda às quatro perguntas na tela para revisar o que aprendeu. Leia cada alternativa com calma e escolha sua resposta. Ao terminar, confira o resultado e as explicações.",
+      "planned_filename": "quiz.wav"
+    }
+  ]
+}
